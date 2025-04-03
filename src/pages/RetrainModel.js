@@ -4,57 +4,106 @@ import { RefreshCw } from 'lucide-react';
 function RetrainModel({ API_BASE_URL }) {
   const [trainingStatus, setTrainingStatus] = useState('idle');
   const [trainingError, setTrainingError] = useState(null);
-  const [retrainingTriggered, setRetrainingTriggered] = useState(false); // New state to track if retraining was triggered
+  const [pollingActive, setPollingActive] = useState(false);
+
+  // Debug API URL on component mount
+  useEffect(() => {
+    console.log("Using API URL:", API_BASE_URL);
+  }, [API_BASE_URL]);
 
   const triggerRetraining = async () => {
     try {
+      console.log("Triggering retraining at:", `${API_BASE_URL}/trigger_retrain`);
       setTrainingStatus('starting');
       setTrainingError(null);
-      setRetrainingTriggered(true); // Retraining has been triggered
+      setPollingActive(false);
 
       const response = await fetch(`${API_BASE_URL}/trigger_retrain`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
+      console.log("Trigger response:", response.status, response.statusText);
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to trigger retraining');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Failed to trigger retraining: ${response.status}`);
       }
 
-      setTrainingStatus('training');
-      pollTrainingStatus(); // Start polling for status updates
+      const data = await response.json().catch(() => ({ status: "unknown" }));
+      console.log("Trigger data:", data);
+
+      // Start with the status from the initial response
+      setTrainingStatus(data.status === "in_progress" ? "training" : data.status || "training");
+      
+      // Start polling after a short delay
+      setPollingActive(true);
+      setTimeout(pollTrainingStatus, 2000);
     } catch (err) {
+      console.error("Triggering error:", err);
       setTrainingStatus('failed');
       setTrainingError(err.message || 'An error occurred during retraining.');
-      console.error(err);
+      setPollingActive(false);
     }
   };
 
   const pollTrainingStatus = async () => {
+    // If polling has been stopped, don't continue
+    if (!pollingActive) return;
+
     try {
-      const response = await fetch(`${API_BASE_URL}/retrain_status`);
+      console.log("Polling status from:", `${API_BASE_URL}/retrain_status`);
+      const response = await fetch(`${API_BASE_URL}/retrain_status`, {
+        // Adding cache control to prevent cached responses
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+      
+      console.log("Poll response:", response.status, response.statusText);
+      
       if (!response.ok) {
-        throw new Error('Failed to fetch training status');
+        throw new Error(`Failed to fetch training status: ${response.status}`);
       }
+      
       const data = await response.json();
-      setTrainingStatus(data.status);
+      console.log("Poll data:", data);
+      
+      // Handle different status values that might come from the backend
+      const normalizedStatus = 
+        data.status === "in_progress" ? "training" :
+        data.status === "completed" ? "completed" :
+        data.status === "failed" ? "failed" :
+        data.status || "training";
+      
+      setTrainingStatus(normalizedStatus);
       setTrainingError(data.error || null);
 
-      if (data.status === 'training') {
+      // Continue polling only if status indicates ongoing training
+      if (normalizedStatus === "training" || data.status === "in_progress") {
         setTimeout(pollTrainingStatus, 5000); // Poll every 5 seconds
+      } else {
+        // Training is done (completed or failed)
+        setPollingActive(false);
       }
     } catch (err) {
+      console.error("Polling error:", err);
       setTrainingStatus('failed');
       setTrainingError(err.message || 'An error occurred while polling training status.');
-      console.error(err);
+      setPollingActive(false);
     }
   };
 
+  // Cancel polling when component unmounts
   useEffect(() => {
-    if (retrainingTriggered) {
-      pollTrainingStatus(); // Start polling if retraining was triggered
-    }
-  }, [retrainingTriggered]);
+    return () => {
+      setPollingActive(false);
+    };
+  }, []);
 
   return (
     <div className="content-section">
@@ -85,7 +134,7 @@ function RetrainModel({ API_BASE_URL }) {
 
         {trainingError && (
           <div className="alert error">
-            {trainingError}
+            <strong>Error:</strong> {trainingError}
           </div>
         )}
 
