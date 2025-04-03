@@ -124,7 +124,7 @@ function RetrainModel({ API_BASE_URL }) {
           <div className="stat-item">
             <span className="stat-label">Languages Supported:</span>
             <span className="stat-value">Amharic, Swahili, French, Shona, Yoruba, Nigerian Pidgin</span>
-          </div>
+          </div> 
           <div className="stat-item">
             <span className="stat-label">Last Trained:</span>
             <span className="stat-value">1 day ago</span>
