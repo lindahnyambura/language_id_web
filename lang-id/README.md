@@ -1,4 +1,6 @@
 <<<<<<< HEAD
+# language_id_web
+=======
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -69,6 +71,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
-# language_id_web
->>>>>>> 4af4bc24c4d41c2b36cb6b8a226817fe74a08f6d
+>>>>>>> b30c7a8 (vercel)
