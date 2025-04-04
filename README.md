@@ -1,71 +1,136 @@
-# Getting Started with Create React App
+# Language Prediction and Retraining App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This React application provides a user-friendly interface for language prediction and model retraining. It allows users to input text and identify the language, visualize dataset insights, and trigger model retraining.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+-   [Features](#features)
+-   [Technologies Used](#technologies-used)
+-   [Setup](#setup)
+-   [Running the App](#running-the-app)
+-   [Deployment](#deployment)
+-   [Contributing](#contributing)
+-   [License](#license)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-   **Language Prediction:** Accurately predicts the language of user-inputted text.
+-   **Confidence Scores:** Displays confidence scores for predictions, indicating model certainty.
+-   **Alternative Predictions:** Provides alternative language predictions with confidence scores.
+-   **Dataset Visualizations:** Offers interactive visualizations to understand the training dataset:
+    -   Language distribution.
+    -   Topic distribution by language.
+    -   Text length across languages.
+    -   Most common words per language (French, Yoruba, Swahili).
+    -   Topic sentiment analysis.
+-   **Model Retraining:** Allows users to trigger model retraining with new data.
+-   **Training Status:** Provides real-time feedback on the retraining process.
+-   **Training Information:** Displays dataset size, supported languages, and last training date.
+-   **Dark/Light Mode:** Provides a toggle for user preference.
+-   **Responsive Design:** Ensures the app works well on various screen sizes.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+-   **React:** JavaScript library for building user interfaces.
+-   **React Hooks:** For state management and side effects.
+-   **Lucide React:** For icons.
+-   **CSS:** For styling.
+-   **Vercel:** For deployment.
+-   **Node.js/npm (or yarn):** For package management.
+-   **Git:** For version control.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Setup
 
-### `npm run build`
+1.  **Clone the Repository:**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```bash
+    git clone [repository-url]
+    cd [repository-name]
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2.  **Install Dependencies:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    Using npm:
 
-### `npm run eject`
+    ```bash
+    npm install
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    Using yarn:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```bash
+    yarn install
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3.  **Environment Variables:**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    Create a `.env.local` file in the root directory and add your API base URL:
 
-## Learn More
+    ```
+    REACT_APP_API_BASE_URL=your_api_base_url
+    ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    Replace `your_api_base_url` with the actual URL of your backend API.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Running the App
 
-### Code Splitting
+1.  **Start the Development Server:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    Using npm:
 
-### Analyzing the Bundle Size
+    ```bash
+    npm start
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    Using yarn:
 
-### Making a Progressive Web App
+    ```bash
+    yarn start
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2.  **Open in Browser:**
 
-### Advanced Configuration
+    The app will be available at `http://localhost:3000`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Deployment
 
-### Deployment
+This app is designed to be deployed on Vercel.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1.  **Vercel Account:** Create a Vercel account at [vercel.com](https://vercel.com).
+2.  **Vercel CLI (Optional):** Install the Vercel CLI:
 
-### `npm run build` fails to minify
+    ```bash
+    npm install -g vercel
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
+3.  **Deploy:**
+
+    Using the Vercel website:
+
+    -   Import your Git repository.
+    -   Configure the project settings.
+    -   Deploy.
+
+    Using the Vercel CLI:
+
+    ```bash
+    vercel
+    ```
+
+    Follow the prompts to deploy your app.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1.  Fork the repository.
+2.  Create a new branch for your feature or bug fix.
+3.  Make your changes and commit them.
+4.  Push your changes to your fork.
+5.  Submit a pull request.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
